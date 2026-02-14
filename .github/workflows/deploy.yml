@@ -31,6 +31,7 @@ jobs:
         run: |
            ssh -i ~/.ssh/id_rsa $EC2_USER@$EC2_HOST \
             "mkdir -p /home/ubuntu/shadowman41/groupe3"
+            
             scp -i ~/.ssh/id_rsa -r ./ \
             $EC2_USER@$EC2_HOST:/home/ubuntu/${{ github.repository }}
 
