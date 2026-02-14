@@ -14,36 +14,32 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup SSH
-        env:
-          EC2_SSH_KEY: ${{ vars.EC2_SSH_KEY }}
-          EC2_HOST: ${{ vars.EC2_HOST }}
         run: |
           mkdir -p ~/.ssh
           echo "$EC2_SSH_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H $EC2_HOST >> ~/.ssh/known_hosts
+        env:
+          EC2_SSH_KEY: ${{ vars.EC2_SSH_KEY }}
+          EC2_HOST: ${{ vars.EC2_HOST }}
 
-      - name: Copy project to EC2
+      - name: Copy project to EC2 (SCP)
+        run: |
+          ssh -i ~/.ssh/id_rsa $EC2_USER@$EC2_HOST "mkdir -p /home/$EC2_USER/GROUPE3"
+          scp -i ~/.ssh/id_rsa -r ./ $EC2_USER@$EC2_HOST:/home/$EC2_USER/GROUPE3
+         
         env:
           EC2_USER: ${{ vars.EC2_USER }}
           EC2_HOST: ${{ vars.EC2_HOST }}
 
+      - name: Install dependencies and run app
         run: |
-           ssh -i ~/.ssh/id_rsa $EC2_USER@$EC2_HOST \
-            "mkdir -p /home/ubuntu/shadowman41/groupe3"
-
-            scp -i ~/.ssh/id_rsa -r ./ \
-            $EC2_USER@$EC2_HOST:/home/ubuntu/${{ github.repository }}
-
-      - name: Install dependencies and run app on EC2
-      
+          ssh $EC2_USER@$EC2_HOST << EOF
+          cd /home/ubuntu/GROUPE5
+          python3 -m venv venv
+          venv/bin/pip install -r requirements.txt
+          nohup venv/bin/python miniapp.py > app.log 2>&1 &
+          EOF
         env:
           EC2_USER: ${{ vars.EC2_USER }}
           EC2_HOST: ${{ vars.EC2_HOST }}
-        run: |
-          ssh -i ~/.ssh/id_rsa $EC2_USER@$EC2_HOST << EOF
-            cd /home/ubuntu/${{ github.repository }}
-            python3 -m venv venv
-            venv/bin/pip install --upgrade pip
-            venv/bin/pip install -r requirements.txt
-            nohup venv/bin/python miniapp.py > app.log 2>&1 &EOF
