@@ -15,8 +15,8 @@ jobs:
 
       - name: Setup SSH
         env:
-          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
-          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_SSH_KEY: ${{ vars.EC2_SSH_KEY }}
+          EC2_HOST: ${{ vars.EC2_HOST }}
         run: |
           mkdir -p ~/.ssh
           echo "$EC2_SSH_KEY" > ~/.ssh/id_rsa
@@ -25,16 +25,16 @@ jobs:
 
       - name: Copy project to EC2
         env:
-          EC2_USER: ${{ secrets.EC2_USER }}
-          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USER: ${{ vars.EC2_USER }}
+          EC2_HOST: ${{ vars.EC2_HOST }}
         run: |
           scp -i ~/.ssh/id_rsa -r ./ \
             $EC2_USER@$EC2_HOST:/home/ubuntu/${{ github.repository }}
 
       - name: Install dependencies and run app on EC2
         env:
-          EC2_USER: ${{ secrets.EC2_USER }}
-          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USER: ${{ vars.EC2_USER }}
+          EC2_HOST: ${{ vars.EC2_HOST }}
         run: |
           ssh -i ~/.ssh/id_rsa $EC2_USER@$EC2_HOST << 'EOF'
             cd /home/ubuntu/${{ github.repository }}
