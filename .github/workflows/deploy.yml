@@ -29,7 +29,9 @@ jobs:
           EC2_HOST: ${{ vars.EC2_HOST }}
 
         run: |
-          scp -i ~/.ssh/id_rsa -r ./ \
+           ssh -i ~/.ssh/id_rsa $EC2_USER@$EC2_HOST \
+            "mkdir -p /home/ubuntu/shadowman41/groupe3"
+            scp -i ~/.ssh/id_rsa -r ./ \
             $EC2_USER@$EC2_HOST:/home/ubuntu/${{ github.repository }}
 
       - name: Install dependencies and run app on EC2
