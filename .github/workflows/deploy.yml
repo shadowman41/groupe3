@@ -41,14 +41,10 @@ jobs:
           EC2_USER: ${{ vars.EC2_USER }}
           EC2_HOST: ${{ vars.EC2_HOST }}
         run: |
-          ssh -i ~/.ssh/id_rsa $EC2_USER@$EC2_HOST << 'EOF'
+          ssh -i ~/.ssh/id_rsa $EC2_USER@$EC2_HOST << EOF
             cd /home/ubuntu/${{ github.repository }}
             python3 -m venv venv
             venv/bin/pip install --upgrade pip
             venv/bin/pip install -r requirements.txt
-            nohup venv/bin/python run.py > app.log 2>&1 &
-          EOF
-        
-          env:
-           EC2_USER: ${{ vars.EC2_USER }}
-           EC2_HOST: ${{ vars.EC2_HOST }}
+            nohup venv/bin/python run.py > app.log 2>&1 & 
+            EOF
