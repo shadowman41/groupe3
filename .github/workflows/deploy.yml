@@ -48,6 +48,7 @@ jobs:
             venv/bin/pip install -r requirements.txt
             nohup venv/bin/python run.py > app.log 2>&1 &
           EOF
-       env:
+        
+          env:
            EC2_USER: ${{ vars.EC2_USER }}
            EC2_HOST: ${{ vars.EC2_HOST }}
