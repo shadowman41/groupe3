@@ -44,7 +44,6 @@ jobs:
           disown
           echo "PID: $! $(date)" >> app.log
           EOF
-
         env:
           EC2_USER: ${{ vars.EC2_USER }}
           EC2_HOST: ${{ vars.EC2_HOST }}
