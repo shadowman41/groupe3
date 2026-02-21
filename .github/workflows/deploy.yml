@@ -24,7 +24,7 @@ jobs:
 
       - name: Copy project to EC2 (SCP)
         run: |
-          ssh -i ~/.ssh/id_rsa $EC2_USER@$EC2_HOST "mkdir -p /home/$EC2_USER/GROUPE3"
+          ssh -i ~/.ssh/id_rsa $EC2_USER@$EC2_HOST "mkdir -p /home/$EC2_USER/GROUPE3 ; sudo chown -R ubuntu:ubuntu /home/ubuntu/GROUPE3"
           scp -i ~/.ssh/id_rsa -r ./ $EC2_USER@$EC2_HOST:/home/$EC2_USER/GROUPE3
         env:
           EC2_USER: ${{ vars.EC2_USER }}
