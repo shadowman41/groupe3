@@ -6,9 +6,9 @@ app.secret_key = "secret123"
 
 def get_db():
     return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",   
+        host="jdbc:mysql://stsohiodb.cjgwc262s6im.us-east-2.rds.amazonaws.com:3306/augusto_db",
+        user="admin",
+        password="stsdevpassword",   
         database="login"
     )
 
