@@ -35,11 +35,11 @@ jobs:
         run: |
           ssh -i ~/.ssh/id_rsa $EC2_USER@$EC2_HOST << 'EOF'
           cd /home/ubuntu/GROUPE3 || exit 1
-          echo "Debut: $(date)" > setup.log
+          echo "Debut: $(date)" > app.log
           rm -rf venv
-          python3 -m venv venv || { echo "Venv KO: $(python3 --version)" >> setup.log; exit 1; }
+          python3 -m venv venv || { echo "Venv KO: $(python3 --version)" >> app.log; exit 1; }
           source venv/bin/activate
-          pip install -r requirements.txt >> setup.log 2>&1 || exit 1
+          pip install -r requirements.txt >> app.log 2>&1 || exit 1
           nohup venv/bin/python miniapp.py > app.log 2>&1 < /dev/null &
           disown
           echo "PID: $! $(date)" >> app.log
