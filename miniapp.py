@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.secret_key = "secret123"
 
 # Configuration SQLAlchemy MySQL
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:stsdevpassword@stsohiodb.cjgwc262s6im.us-east-2.rds.amazonaws.com:3306/login'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:stsdevpassword@stsohiodb.cjgwc262s6im.us-east-2.rds.amazonaws.com:3306/augusto_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Base pour les modèles
