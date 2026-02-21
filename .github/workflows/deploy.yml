@@ -34,15 +34,10 @@ jobs:
       - name: Install dependencies and run app
         run: |
           ssh -i ~/.ssh/id_rsa $EC2_USER@$EC2_HOST << 'EOF'
-          cd /home/ubuntu/GROUPE3 || exit 1
-          echo "Debut: $(date)" > app.log
-          rm -rf venv
-          python3 -m venv venv || { echo "Venv KO: $(python3 --version)" >> app.log; exit 1; }
-          source venv/bin/activate
-          pip install -r requirements.txt >> app.log 2>&1 || exit 1
-          nohup venv/bin/python miniapp.py > app.log 2>&1 < /dev/null &
-          disown
-          echo "PID: $! $(date)" >> app.log
+            cd /home/ubuntu/Groupe3
+            python3 -m venv venv
+            venv/bin/pip install -r requirements.txt
+            nohup venv/bin/python miniapp.py > app.log 2>&1 &
           EOF
         env:
           EC2_USER: ${{ vars.EC2_USER }}
