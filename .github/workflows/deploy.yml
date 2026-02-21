@@ -26,7 +26,6 @@ jobs:
         run: |
           ssh -i ~/.ssh/id_rsa $EC2_USER@$EC2_HOST "mkdir -p /home/$EC2_USER/GROUPE3"
           scp -i ~/.ssh/id_rsa -r ./ $EC2_USER@$EC2_HOST:/home/$EC2_USER/GROUPE3
-        
         env:
           EC2_USER: ${{ vars.EC2_USER }}
           EC2_HOST: ${{ vars.EC2_HOST }}
